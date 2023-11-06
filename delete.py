@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import typing
 import os
 from dotenv import load_dotenv
@@ -23,9 +23,15 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+def checa_canal(channel_id):
+    if channel_id in channels_dict:
+        return True
+    return False
+
 
 @bot.event
 async def on_ready():
+    clear_loop.start()
     print(f'Logged in as {bot.user.name}')
 
 
@@ -47,7 +53,7 @@ async def here(ctx, time: typing.Optional[int] = 60):
     cur = conn.cursor()
     channel_id = str(ctx.channel.id)
     await ctx.message.delete()
-    if channel_id in channels_dict:
+    if checa_canal(channel_id):
         cur.execute('DELETE FROM channels WHERE channel_id = %s', (channel_id,))
         del channels_dict[channel_id]
         await ctx.send("I'm out!", delete_after=5.0)
@@ -58,6 +64,27 @@ async def here(ctx, time: typing.Optional[int] = 60):
     conn.commit()
     cur.close()
     conn.close()
+
+
+@bot.command()
+async def check(ctx):
+    channel_id = str(ctx.channel.id)
+    await ctx.message.delete()
+    if checa_canal(channel_id):
+        await ctx.send("Still here!", delete_after=5.0)
+    else:
+        await ctx.send("Nope, didn't ask me to!", delete_after=5.0)
+
+
+@tasks.loop(minutes=5)
+async def clear_loop():
+    for channel_id in channels_dict.keys():
+        if checa_canal(channel_id):
+            await clear(channel_id)
+
+async def clear(channel_id):
+    channel = bot.get_channel(int(channel_id))
+    await channel.purge()
 
 
 bot.run(str(os.environ.get('DISCORD_TOKEN')))
