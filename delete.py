@@ -51,7 +51,7 @@ async def on_message(message):
 
 
 @bot.command()
-async def here(ctx, time: typing.Optional[int] = 60):
+async def eraseevidence(ctx, time: typing.Optional[int] = 60):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cur = conn.cursor()
     channel_id = str(ctx.channel.id)
