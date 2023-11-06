@@ -7,21 +7,24 @@ import psycopg2
 
 
 load_dotenv()
-
 DATABASE_URL = os.environ['DATABASE_URL']
+
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cur = conn.cursor()
 cur.execute('SELECT * FROM channels')
 data = cur.fetchall()
+
 channels_dict = {}
 for item in data:
     channels_dict[item[0]] = item[1]
+
 cur.close()
 conn.close()
 
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
+
 
 def checa_canal(channel_id):
     if channel_id in channels_dict:
@@ -82,9 +85,11 @@ async def clear_loop():
         if checa_canal(channel_id):
             await clear(channel_id)
 
+
 async def clear(channel_id):
     channel = bot.get_channel(int(channel_id))
     await channel.purge()
 
 
-bot.run(str(os.environ.get('DISCORD_TOKEN')))
+if __name__ == '__main__':
+    bot.run(str(os.environ.get('DISCORD_TOKEN')))
