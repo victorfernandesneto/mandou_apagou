@@ -16,7 +16,6 @@ data = cur.fetchall()
 channels_dict = {}
 for item in data:
     channels_dict[item[0]] = item[1]
-print(channels_dict)
 cur.close()
 conn.close()
 
@@ -38,7 +37,6 @@ async def on_message(message):
             return
         else:
             delete_time = channels_dict[channel_id]
-            print(delete_time)
             await message.delete(delay=delete_time)
     await bot.process_commands(message)
 
@@ -52,12 +50,10 @@ async def here(ctx, time: typing.Optional[int] = 60):
     if channel_id in channels_dict:
         cur.execute('DELETE FROM channels WHERE channel_id = %s', (channel_id,))
         del channels_dict[channel_id]
-        print(channels_dict)
         await ctx.send("I'm out!", delete_after=5.0)
     else:
         cur.execute('INSERT INTO channels (channel_id, time) VALUES (%s, %s)', (channel_id, time,))
         channels_dict[channel_id] = time
-        print(channels_dict)
         await ctx.send("You haven't seen nothing!", delete_after=5.0)
     conn.commit()
     cur.close()
