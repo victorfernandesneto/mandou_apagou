@@ -2,15 +2,18 @@
 
 ---
 
-O Bot "Mandou, Apagou" ou "ErasingEvidence" (dei outro nome em inglês mesmo) é um bot que deleta mensagens em um canal específico do Discord em um tempo escolhido pelo usuário. O Bot foi todo programado em Python e, no momento da escrita desse ReadMe, roda no Heroku. Ele persiste os canais que foi tagado e em quantos segundos o usuário gostaria que fosse as mensagens fossem deletadas.
+** The bot is currently offline **
 
-Ele é de facílimo acesso e muito prático de compreender o código. Se quiser utilizá-lo em seu servidor, siga o passo a passo abaixo.
+"Mandou, Apagou" (ErasingEvidence in english), is a bot that deletes messages in a specific channel of a Discord server. The bot uses discord.py (Python, obviously) and used to be deployed on Heroku (shut down due to financial reasons). The channels and time-until-deletion are stored in a PostgreSQL database and persists even after downtime.
 
-* Convide-o para o servidor utilizando esse [link](https://discord.com/api/oauth2/authorize?client_id=1170832025071140864&permissions=9216&scope=bot).
-* Dê as permissões para que ele possa enxergar o canal, tal qual escrever e deletar mensagens.
-* Escreva "!eraseevidence [segundos]" (sem os colchetes) no canal.
-* Se sua mensagem for deletada e ele responder brevemente "You haven't seen nothing!", então tudo ocorreu certo!
+If you want to give this guy a try (after I deploy him somewhere free), just follow the steps:
+
+* Invite it to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=1170832025071140864&permissions=9216&scope=bot);
+* Give it permission to see, write and delete messages of the channel that you want the messages to be deleted;
+* Write "!eraseevidence [seconds]" (without the brackets) in the channel;
+* If your message is deleted and the bot writes "You haven't seen nothing!", then is all set!
+* If you want to disable it, just write !eraseevidence again.
 
 ---
 
-Viu? Muito fácil! Se gostou do trabalho, tem alguma dúvida ou quiser enviar uma sugestão, pode me mandar uma mensagem ou um email em vvfernandesneto@gmail.com!
+If you liked the job, have a question or want to send a suggestion, feel free to contact me by email at vvfernandesneto@gmail.com!
